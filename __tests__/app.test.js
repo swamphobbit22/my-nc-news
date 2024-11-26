@@ -6,6 +6,7 @@ const app = require('../app')
 const request = require('supertest');
 
 
+
 /* Set up your test imports here */
 
 /* Set up your beforeEach & afterAll functions here */
@@ -45,7 +46,6 @@ describe("GET /api", () => {
 })
 
 
-
 it('should return an article with a specific id ', () => {
   return request(app)
   .get('/api/articles/2')
@@ -63,7 +63,27 @@ it('should return an article with a specific id ', () => {
         }]
         expect(body.articles).toEqual(expectedOutput);
       })
-    })
+    });
+
+      it('should respond with a 400 error if article id is invalid - not a number', () => {
+        return request(app)
+        .get('/api/articles/banana')
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe('Invalid input')
+        })
+      });
+
+      it('should respond with a 404 error msg if article does not exist', () => {
+      return request(app)
+      .get('/api/articles/16')
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe('article not found')
+      })
+    });
 
     // it.only('it should return created_at field in the correct format', () => {
     //   return request(app)
@@ -107,5 +127,49 @@ it('should return an array of articles' , () => {
       })
     })  
   }) 
+})
+
+describe('GET /api/articles/:article_id/comments', () => {
+  it('should return all comments for a given article', () => {
+    return request(app)
+    .get('/api/articles/3/comments')
+    .expect(200)
+    .then(({ body }) => {
+      console.log(body, '<<<<body in test')
+      body.comments.forEach((comment) => {
+        expect(comment).toMatchObject({
+          comment_id: expect.any(Number),
+          votes: expect.any(Number), 
+          created_at: expect.any(String) ,
+          author: expect.any(String) ,
+          body: expect.any(String),
+          article_id: expect.any(Number),
+        })
+      })
+ 
+      expect(body.comments).toBeSortedBy('created_at', {descending: true})
+    })
+  });
+
+it('should respond with 400 error with an invalid id', () => {
+    return request(app)
+    .get('/api/articles/banana/comments')
+    .expect(400)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe('Invalid input')
+    })
+ })
+
+ it('should respond with 404 error with an id that does not exist', () => {
+  return request(app)
+  .get('/api/articles/999/comments')
+  .expect(404)
+  .then(({ body }) => {
+    const { msg } = body;
+    expect(msg).toBe('article not found')
+  })
+})
+
 })
 

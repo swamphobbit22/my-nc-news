@@ -1,8 +1,8 @@
-const {readTopics, readSingleArticle, readAllArticles} = require('../models/api-models')
+const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId} = require('../models/api-models')
 
 exports.getTopics = (req, res, next) => {
     readTopics().then((topics)=> {
-        console.log(topics)
+       
         res.status(200).send({ topics })
     })
     .catch((err) => {
@@ -23,10 +23,23 @@ exports.getSingleArticle = (req, res, next) => {
 
 exports.getAllArticles = (req, res, next) => {
     readAllArticles().then((rows) => {
-        //console.log(rows, '<<< rows from controller')
+        
         res.status(200).send({ articles: rows })
     })
     .catch((err) => {
         next(err)
     })
 }
+
+
+exports.getCommentsByArticleId = (req, res, next) => {
+    const {article_id} = req.params;
+    
+    readCommentsByArticleId(article_id).then((comments) => {
+        res.status(200).send({ comments: comments })   
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
+

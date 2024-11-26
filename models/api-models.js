@@ -3,7 +3,10 @@ const db = require('../db/connection')
 exports.readTopics = () => {
     return db.query(`SELECT * FROM topics;`)
     .then(({ rows }) => {
-        return rows;
+        if(rows.length === 0) {
+            return Promise.reject({ status: 404, msg: 'topics not found'})
+        } 
+       return rows;
     })
 }
 
@@ -15,13 +18,11 @@ exports.readSingleArticle = (article_id) => {
     WHERE article_id = $1`, [article_id])
     .then (({ rows }) => {
         if(rows.length === 0) {
-            return Promise.reject({ status: 404, msg: 'Article not found'})
+            return Promise.reject({ status: 404, msg: 'article not found'})
         } 
        return rows[0]
     })
-    .catch((err) => {
-        return err;
-    })
+
 }
 
 exports.readAllArticles = () => {
@@ -42,7 +43,28 @@ exports.readAllArticles = () => {
         ORDER BY articles.created_at DESC;
         `)
         .then(({ rows }) => {
-            //console.log(rows, '<<< rows from model')
             return rows;
         })
+}
+
+
+exports.readCommentsByArticleId = (article_id) => {
+    return db.query(`
+        SELECT 
+            comment_id, 
+            votes, 
+            created_at, 
+            author, 
+            body, 
+            article_id 
+        FROM comments
+        WHERE article_id = $1
+        ORDER BY created_at DESC 
+        `, [article_id]) 
+    .then (({ rows }) => {
+         if(rows.length === 0) {
+             return Promise.reject({ status: 404, msg: 'article not found'})
+         } 
+         return rows;
+    })
 }
