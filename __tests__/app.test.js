@@ -45,7 +45,6 @@ describe("GET /api", () => {
 })
 
 
-
 it('should return an article with a specific id ', () => {
   return request(app)
   .get('/api/articles/2')
@@ -63,7 +62,27 @@ it('should return an article with a specific id ', () => {
         }]
         expect(body.articles).toEqual(expectedOutput);
       })
-    })
+    });
+
+      it('should respond with a 400 error if article id is invalid - not a number', () => {
+        return request(app)
+        .get('/api/articles/banana')
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe('Invalid input')
+        })
+      });
+
+      it('should respond with a 404 error msg if article does not exist', () => {
+      return request(app)
+      .get('/api/articles/16')
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe('article not found')
+      })
+    });
 
     // it.only('it should return created_at field in the correct format', () => {
     //   return request(app)
