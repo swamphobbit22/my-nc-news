@@ -7,6 +7,7 @@ const request = require('supertest');
 
 
 
+
 /* Set up your test imports here */
 
 /* Set up your beforeEach & afterAll functions here */
@@ -135,7 +136,7 @@ describe('GET /api/articles/:article_id/comments', () => {
     .get('/api/articles/3/comments')
     .expect(200)
     .then(({ body }) => {
-      console.log(body, '<<<<body in test')
+      
       body.comments.forEach((comment) => {
         expect(comment).toMatchObject({
           comment_id: expect.any(Number),
@@ -173,3 +174,24 @@ it('should respond with 400 error with an invalid id', () => {
 
 })
 
+describe('POST /api/articles/:article_id/comments', () => {
+  it('201 - successfully created - should add a comment for an article', () => {
+    const addNewComment = {username: 'lurker', body: 'Scooby Scooby Doo, where are you? Hey, Scooby, leave those cats alone! All in all you are just another dog with a bone!'}
+    return request(app)
+    .post('/api/articles/11/comments')
+    .send(addNewComment)
+    .expect(201)
+    .then(({body}) => {
+      expect(body.comment).toMatchObject({
+        author: addNewComment.username,
+        body: addNewComment.body,
+        article_id: 11
+      });  
+    })
+  })
+
+  // it.skip('should return a 400 error code when field are empty', () => {
+
+  // })
+
+})
