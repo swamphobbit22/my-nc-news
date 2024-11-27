@@ -4,6 +4,11 @@ exports.addComment = (req, res, next) => {
     const { article_id } = req.params;
     const { username, body} = req.body
 
+
+    if(isNaN(Number(article_id))){
+        return res.status(400).send({ msg: 'invalid input'});
+    }
+
     if (!username || !body){
         return res.status(400).send({ msg: 'Username and body are both required'})
     }

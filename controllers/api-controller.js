@@ -34,7 +34,6 @@ exports.getAllArticles = (req, res, next) => {
 
 exports.getCommentsByArticleId = (req, res, next) => {
     const {article_id} = req.params;
-    
     readCommentsByArticleId(article_id).then((comments) => {
         res.status(200).send({ comments: comments })   
     })
