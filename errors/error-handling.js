@@ -7,7 +7,9 @@ exports.pgErrorhandler = (err, req, res, next) => {
 exports.customErrorhandler = (err, req, res, next) => {
     if (err.status) {
         res.status(err.status).send({ msg: err.msg });
-      } else next(err);
+      } else {
+        next(err)
+     };
 };
 
 exports.serverErrorhandler = (err, req, res, next) => {
