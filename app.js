@@ -5,6 +5,7 @@ const { getTopics , getSingleArticle, getAllArticles, getCommentsByArticleId, pa
 const { addComment, deleteCommentById } = require('./controllers/comments-controller')
 const { pgErrorhandler, customErrorhandler, serverErrorhandler } = require('./errors/error-handling');
 const { getEndpoints } = require('./controllers/endpoints-controller');
+const { getUsers } = require('./controllers/users-controller')
 
 app.use(express.json());
 
@@ -25,7 +26,7 @@ app.patch('/api/articles/:article_id', patchUpdatedVotes);
 
 app.delete('/api/comments/:comment_id', deleteCommentById )
 
-
+app.get('/api/users', getUsers);
 
 
 
