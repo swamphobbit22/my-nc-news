@@ -1,4 +1,4 @@
-const {insertComment} = require('../models/comments-model');
+const {insertComment, deleteComment, checkComment} = require('../models/comments-model');
 
 exports.addComment = (req, res, next) => {
     const { article_id } = req.params;
@@ -19,4 +19,21 @@ exports.addComment = (req, res, next) => {
     .catch((err) => {
         next(err)
     })
+}
+
+exports.deleteCommentById = (req, res, next) => {
+    const { comment_id } = req.params;
+
+    if(isNaN(Number(comment_id))){
+        return res.status(400).send({ msg: 'invalid input'});
+    }
+
+    Promise.all([
+        checkComment(comment_id),
+        deleteComment({comment_id})
+    ])
+    .then(() => {
+        res.status(204).end();
+    })
+    .catch(next);
 }

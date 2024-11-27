@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const endpointsJson = require('./endpoints.json');
 const { getTopics , getSingleArticle, getAllArticles, getCommentsByArticleId, patchUpdatedVotes } = require('./controllers/api-controller');
-const { addComment } = require('./controllers/comments-controller')
+const { addComment, deleteCommentById } = require('./controllers/comments-controller')
 const { pgErrorhandler, customErrorhandler, serverErrorhandler } = require('./errors/error-handling');
 const { getEndpoints } = require('./controllers/endpoints-controller');
 
@@ -22,6 +22,8 @@ app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 app.post('/api/articles/:article_id/comments', addComment);
 
 app.patch('/api/articles/:article_id', patchUpdatedVotes);
+
+app.delete('/api/comments/:comment_id', deleteCommentById )
 
 
 

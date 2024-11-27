@@ -252,3 +252,31 @@ describe('PATCH /api/articles/:article_id', () => {
   })
 
 })
+
+describe('DELETE /api/comments/:comment_id', () => {
+  it('204 - no content - should delete comment by comment_id', () => { 
+    return request(app)
+    .delete('/api/comments/1')
+    .expect(204)
+    .then(({body}) => {
+      const { msg } = body;
+      expect(Object.keys(body).length).toBe(0);
+    })
+  })
+  it('should return 400 error when comment_id is invalid', () => {
+    return request(app)
+    .delete('/api/comments/banana')
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe('invalid input')
+    })
+  })
+  it('should return 404 error when no comment exists', () => {
+    return request(app)
+    .delete('/api/comments/999')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe('comment does not exist')
+    })
+  })
+})
