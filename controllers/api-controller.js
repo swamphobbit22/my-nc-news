@@ -1,4 +1,4 @@
-const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId} = require('../models/api-models')
+const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle} = require('../models/api-models')
 
 exports.getTopics = (req, res, next) => {
     readTopics().then((topics)=> {
@@ -23,7 +23,6 @@ exports.getSingleArticle = (req, res, next) => {
 
 exports.getAllArticles = (req, res, next) => {
     readAllArticles().then((rows) => {
-        
         res.status(200).send({ articles: rows })
     })
     .catch((err) => {
@@ -33,7 +32,7 @@ exports.getAllArticles = (req, res, next) => {
 
 
 exports.getCommentsByArticleId = (req, res, next) => {
-    const {article_id} = req.params;
+    const { article_id } = req.params;
     readCommentsByArticleId(article_id).then((comments) => {
         res.status(200).send({ comments: comments })   
     })
@@ -42,3 +41,13 @@ exports.getCommentsByArticleId = (req, res, next) => {
     })
 }
 
+exports.patchUpdatedVotes = (req, res, next) => {
+    const { article_id } = req.params;
+    const { inc_votes } = req.body;
+    updateVotesByArticle(inc_votes, article_id).then((updateArticle) => {
+        res.status(200).send({ article: updateArticle })   
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
