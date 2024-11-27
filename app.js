@@ -4,13 +4,12 @@ const endpointsJson = require('./endpoints.json');
 const { getTopics , getSingleArticle, getAllArticles, getCommentsByArticleId } = require('./controllers/api-controller');
 const { addComment } = require('./controllers/comments-controller')
 const { pgErrorhandler, customErrorhandler, serverErrorhandler } = require('./errors/error-handling');
+const { getEndpoints } = require('./controllers/endpoints-controller');
 
 app.use(express.json());
 
 
-app.get('/api', (req, res) => {
-    res.status(200).send({ endpoints: endpointsJson})
-})
+app.get('/api', getEndpoints)
 
 app.get('/api/topics', getTopics);
 
