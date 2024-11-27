@@ -58,6 +58,8 @@ WHERE article_id = 2;
         GROUP BY articles.article_id
         ORDER BY articles.created_at DESC;
 
-        UPDATE articles
-        SET votes = $1,
-        WHERE article_id = $2
+        -- UPDATE articles
+        -- SET votes = $1,
+        -- WHERE article_id = $2
+
+        SELECT * FROM users;

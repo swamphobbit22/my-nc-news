@@ -1,8 +1,7 @@
 const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle} = require('../models/api-models')
 
 exports.getTopics = (req, res, next) => {
-    readTopics().then((topics)=> {
-       
+    readTopics().then((topics)=> { 
         res.status(200).send({ topics })
     })
     .catch((err) => {
