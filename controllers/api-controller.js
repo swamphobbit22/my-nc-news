@@ -1,5 +1,9 @@
 const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle} = require('../models/api-models')
 
+exports.getWelcomeMsg = (req, res) => {
+    res.send('<h1> Welcome to my NC News API.</h1><p>The endpoints are here <a href="/api ">/api</a> feel free to browse!</p> ')
+}
+
 exports.getTopics = (req, res, next) => {
     readTopics().then((topics)=> { 
         res.status(200).send({ topics })

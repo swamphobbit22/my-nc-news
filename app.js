@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const endpointsJson = require('./endpoints.json');
-const { getTopics , getSingleArticle, getAllArticles, getCommentsByArticleId, patchUpdatedVotes } = require('./controllers/api-controller');
+const { getTopics , getSingleArticle, getAllArticles, getCommentsByArticleId, patchUpdatedVotes, getWelcomeMsg } = require('./controllers/api-controller');
 const { addComment, deleteCommentById } = require('./controllers/comments-controller')
 const { pgErrorhandler, customErrorhandler, serverErrorhandler } = require('./errors/error-handling');
 const { getEndpoints } = require('./controllers/endpoints-controller');
@@ -9,8 +9,9 @@ const { getUsers } = require('./controllers/users-controller')
 
 app.use(express.json());
 
+app.get('/', getWelcomeMsg);
 
-app.get('/api', getEndpoints)
+app.get('/api', getEndpoints);
 
 app.get('/api/topics', getTopics);
 
