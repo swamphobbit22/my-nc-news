@@ -137,7 +137,7 @@ it('should return an array of articles' , () => {
     })  
   }) 
 
-  it.only('should filter the articles by topic', () => {
+  it('should filter the articles by topic', () => {
     return request(app)
     .get('/api/articles?topic=cats')
     .expect(200)
@@ -157,8 +157,8 @@ it('should return an array of articles' , () => {
     })
   })
 
-  //not working - i need to revisit these
-  it.skip('should handle a topic that does not exist', () => {
+
+  it('should handle a topic that does not exist', () => {
     return request(app)
     .get('/api/articles?topic=999')
     .expect(404)
@@ -168,15 +168,16 @@ it('should return an array of articles' , () => {
     })
   })
 
-  it.skip('should handle an invalid topic ', () => {
-    return request(app)
-    .get('/api/articles?topic=invalid_topic')
-    .expect(400)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe('Invalid input')
-    })
-  })
+  //not working - i need to revisit this
+//   it('should handle an invalid topic ', () => {
+//     return request(app)
+//     .get('/api/articles?topic=invalid_topic')
+//     .expect(400)
+//     .then(({ body }) => {
+//       const { msg } = body;
+//       expect(msg).toBe('Invalid input')
+//     })
+//   })
 
 })
 
