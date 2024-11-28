@@ -25,9 +25,9 @@ exports.getSingleArticle = (req, res, next) => {
 }
 
 exports.getAllArticles = (req, res, next) => {
-    const { sort_by, order } = req.query;
+    const { sort_by, order, topic } = req.query;
 
-    readAllArticles(sort_by, order).then((rows) => {
+    readAllArticles(sort_by, order, topic).then((rows) => {
         res.status(200).send({ articles: rows })
     })
     .catch((err) => {

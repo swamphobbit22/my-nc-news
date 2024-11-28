@@ -25,17 +25,11 @@ exports.readSingleArticle = (article_id) => {
 
 }
 
-exports.readAllArticles = (sort_by = 'created_at', order = 'desc') => {
+exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null) => {
 
     const sortByColumns = [
-        'author',
-        'title',
-        'article_id',
-        'topic',
-        'created_at',
-        'votes',
-        'comment_count',
-        'article_img_url',
+        'author','title','article_id','topic','created_at','votes',
+        'comment_count','article_img_url',
     ];
 
     const sortOrder = ['asc', 'desc'];
@@ -48,7 +42,7 @@ exports.readAllArticles = (sort_by = 'created_at', order = 'desc') => {
         return Promise.reject({ status: 400, msg: 'invalid sort order'});
     }
 
-    const query = `
+    let query = `
         SELECT 
         articles.author, 
         articles.title, 
@@ -61,15 +55,28 @@ exports.readAllArticles = (sort_by = 'created_at', order = 'desc') => {
         FROM articles
         LEFT JOIN comments
         ON comments.article_id = articles.article_id
-        GROUP BY articles.article_id
-        ORDER BY ${sort_by} ${order};
         `;
 
-        return db.query(query).then(({rows}) => {
+        if(topic) {
+            query += `WHERE articles.topic = $1`;
+        }
+
+        query += `
+        GROUP BY articles.article_id
+        ORDER BY ${sort_by} ${order};
+         `;
+
+        const params = topic ? [topic] : [];
+
+        return db.query(query, params)
+        .then(({rows}) => {
             return rows;
         })
+        .catch(err => {
+            return Promise.reject({ status: 500, msg: 'Internal server error', error: err});
+        })
 }
-//ORDER BY articles.created_at DESC;
+
 
 exports.readCommentsByArticleId = (article_id) => {
     return db.query(`
@@ -91,6 +98,7 @@ exports.readCommentsByArticleId = (article_id) => {
          return rows;
     })
 }
+
 
 exports.updateVotesByArticle = (inc_votes, article_id) => {
 
