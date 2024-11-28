@@ -25,8 +25,30 @@ exports.readSingleArticle = (article_id) => {
 
 }
 
-exports.readAllArticles = () => {
-    return db.query(`
+exports.readAllArticles = (sort_by = 'created_at', order = 'desc') => {
+
+    const sortByColumns = [
+        'author',
+        'title',
+        'article_id',
+        'topic',
+        'created_at',
+        'votes',
+        'comment_count',
+        'article_img_url',
+    ];
+
+    const sortOrder = ['asc', 'desc'];
+
+    if(!sortByColumns.includes(sort_by)) {
+        return Promise.reject({ status: 400, msg: 'invalid sort column'});
+    }
+
+    if(!sortOrder.includes(order)) {
+        return Promise.reject({ status: 400, msg: 'invalid sort order'});
+    }
+
+    const query = `
         SELECT 
         articles.author, 
         articles.title, 
@@ -40,13 +62,14 @@ exports.readAllArticles = () => {
         LEFT JOIN comments
         ON comments.article_id = articles.article_id
         GROUP BY articles.article_id
-        ORDER BY articles.created_at DESC;
-        `)
-        .then(({ rows }) => {
+        ORDER BY ${sort_by} ${order};
+        `;
+
+        return db.query(query).then(({rows}) => {
             return rows;
         })
 }
-
+//ORDER BY articles.created_at DESC;
 
 exports.readCommentsByArticleId = (article_id) => {
     return db.query(`
