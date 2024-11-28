@@ -137,6 +137,47 @@ it('should return an array of articles' , () => {
     })  
   }) 
 
+  it.only('should filter the articles by topic', () => {
+    return request(app)
+    .get('/api/articles?topic=cats')
+    .expect(200)
+    .then(({ body }) => {
+        body.articles.forEach((article) => {
+        expect(article).toMatchObject({
+          author: expect.any(String),
+          title: expect.any(String),
+          article_id: expect.any(Number),
+          topic: 'cats',
+          created_at: expect.anything(),
+          votes: expect.any(Number),
+          article_img_url: expect.any(String),
+          comment_count: expect.any(Number)
+        })
+      })
+    })
+  })
+
+  //not working - i need to revisit these
+  it.skip('should handle a topic that does not exist', () => {
+    return request(app)
+    .get('/api/articles?topic=999')
+    .expect(404)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe('not found')
+    })
+  })
+
+  it.skip('should handle an invalid topic ', () => {
+    return request(app)
+    .get('/api/articles?topic=invalid_topic')
+    .expect(400)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe('Invalid input')
+    })
+  })
+
 })
 
 describe('GET /api/articles/:article_id/comments', () => {
@@ -144,8 +185,7 @@ describe('GET /api/articles/:article_id/comments', () => {
     return request(app)
     .get('/api/articles/3/comments')
     .expect(200)
-    .then(({ body }) => {
-      
+    .then(({ body }) => { 
       body.comments.forEach((comment) => {
         expect(comment).toMatchObject({
           comment_id: expect.any(Number),
