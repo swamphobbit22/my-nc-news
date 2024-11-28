@@ -1,6 +1,5 @@
 node_modules
 .env.*
-listen.js
 db/test.txt
 db/test.sql
 controllers/topics-controller.js
