@@ -117,7 +117,26 @@ it('should return an array of articles' , () => {
         })
       })
     })  
+  })
+
+  it('should return articles sorted by votes', () => {
+    return request(app)
+    .get('/api/articles?sort_by=votes&order=asc')
+    .expect(200)
+    .then(({ body }) => {
+     expect(body.articles).toBeSortedBy('votes', {descending: false})
+    })  
   }) 
+
+  it('should return articles sorted by author', () => {
+    return request(app)
+    .get('/api/articles?sort_by=author&order=desc')
+    .expect(200)
+    .then(({ body }) => {
+     expect(body.articles).toBeSortedBy('author', {descending: true})
+    })  
+  }) 
+
 })
 
 describe('GET /api/articles/:article_id/comments', () => {
