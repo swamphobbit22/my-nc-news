@@ -1,8 +1,8 @@
-<Span style="color: blue"># NC News API</span>
+# NC News API
 
 **Overview**
 
-The NC News API is a robust backend server application designed for a news aggregation and discussion platform. Similar to Reddit's functionality, this API provides comprehensive endpoints for managing articles, topics, comments, and user interactions.
+The NC News API is a backend server application designed for a news aggregation and discussion platform. Similar to Reddit's functionality, this API provides comprehensive endpoints for managing articles, topics, comments, and user interactions.
 
 **Key Features**
 
