@@ -1,41 +1,21 @@
 const express = require('express');
 const app = express();
-const endpointsJson = require('./endpoints.json');
-const { getTopics , getSingleArticle, getAllArticles, getCommentsByArticleId, patchUpdatedVotes, getWelcomeMsg } = require('./controllers/api-controller');
-const { addComment, deleteCommentById } = require('./controllers/comments-controller')
+const apiRouter = require('./routes/api.router');
 const { pgErrorhandler, customErrorhandler, serverErrorhandler } = require('./errors/error-handling');
-const { getEndpoints } = require('./controllers/endpoints-controller');
-const { getUsers } = require('./controllers/users-controller')
+const { getWelcomeMsg } = require('./controllers/api-controller');
+
 
 app.use(express.json());
 
 app.get('/', getWelcomeMsg);
 
-app.get('/api', getEndpoints);
-
-app.get('/api/topics', getTopics);
-
-app.get('/api/articles/:article_id', getSingleArticle)
-
-app.get('/api/articles', getAllArticles)
-
-app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
-
-app.post('/api/articles/:article_id/comments', addComment);
-
-app.patch('/api/articles/:article_id', patchUpdatedVotes);
-
-app.delete('/api/comments/:comment_id', deleteCommentById )
-
-app.get('/api/users', getUsers);
+app.use('/api', apiRouter);
 
 
 
 // Error handling
 app.use(pgErrorhandler);
-
 app.use(customErrorhandler);
-
 app.use(serverErrorhandler)
 
   

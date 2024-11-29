@@ -2,5 +2,3 @@ node_modules
 .env.*
 db/test.txt
 db/test.sql
-controllers/topics-controller.js
-models/topics-model.js

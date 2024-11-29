@@ -1,8 +1,7 @@
-const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle, checkTopic} = require('../models/api-models')
+const { readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle, checkTopic} = require('../models/api-models')
 
 exports.getWelcomeMsg = (req, res) => {
     res.send(`
-        
         <h1 style="text-align:center" > Welcome to my NC News API.</h1>
         <br>
         <ul style="list-style-type:none">
@@ -14,17 +13,7 @@ exports.getWelcomeMsg = (req, res) => {
         <li>GET<a href="/api/articles/:article/comments"> /api/articles/:article/comments</a> : Returns a comment for a specified article (Replace :article with an article number) </li>
         <li>GET<a href="/api/users"> /api/users</a> : Returns all users </li>
         </ul>
-        
         `)
-}
-
-exports.getTopics = (req, res, next) => {
-    readTopics().then((topics)=> { 
-        res.status(200).send({ topics })
-    })
-    .catch((err) => {
-        next(err)
-    })
 }
 
 exports.getSingleArticle = (req, res, next) => {
