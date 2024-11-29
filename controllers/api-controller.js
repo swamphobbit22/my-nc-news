@@ -1,4 +1,4 @@
-const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle} = require('../models/api-models')
+const {readTopics, readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle, checkTopic} = require('../models/api-models')
 
 exports.getWelcomeMsg = (req, res) => {
     res.send('<h1> Welcome to my NC News API.</h1><p>The endpoints are here <a href="/api ">/api</a> feel free to browse!</p> ')
