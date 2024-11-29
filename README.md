@@ -69,3 +69,6 @@ For a complete list see the package.json file.
 
 **Please see the API documention for endpoint information**
 
+**Link to the live api here**
+https://my-nc-news-web-service.onrender.com/
+
