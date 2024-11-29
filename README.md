@@ -11,14 +11,14 @@ The NC News API is a backend server application designed for a news aggregation 
 * Vote on articles and comments
 * User-friendly endpoints for seamless data interaction
 
-**Getting Started**
+##Getting Started
 
 **Prerequisites**
 * Node.js (v20.0.0+)
 * PostgreSQL (v14.0+)
 
 
-## Installation
+**Installation**
 1. Clone the repository:
 `git clone https://github.com/swamphobbit22/my-nc-news.git`
 
