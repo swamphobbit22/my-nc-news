@@ -7,13 +7,6 @@ const request = require('supertest');
 const { get } = require("http");
 
 
-
-
-
-/* Set up your test imports here */
-
-/* Set up your beforeEach & afterAll functions here */
-
 beforeEach(() => {
   return seed(testData)
 });
