@@ -52,9 +52,3 @@ Example format:
 Database_name=nc_news_dev
 .env.test
 Database_name=nc_news_test```
-
-
-
-
-
-This project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
