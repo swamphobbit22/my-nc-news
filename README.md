@@ -54,5 +54,18 @@ Example format:
     .env.test
     Database_name=nc_news_test
 
+
+## Dependencies
+
+The following dependencies are used:
+
+    dotenv: ^16.4.5,
+    express: ^4.21.1,
+    pg: ^8.13.1",
+    supertest: ^7.0.0,
+    pg-format: ^1.0.4
+
+For a complete list see the package.json file.
+
 **Please see the API documention for endpoint information**
 
