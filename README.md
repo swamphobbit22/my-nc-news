@@ -48,7 +48,11 @@ Create two environment variable files in the project root:
 
 Example format:
 
-```.env.development
-Database_name=nc_news_dev
-.env.test
-Database_name=nc_news_test```
+
+    .env.development
+    Database_name=nc_news_dev
+    .env.test
+    Database_name=nc_news_test
+
+**Please see the API documention for endpoint information**
+
