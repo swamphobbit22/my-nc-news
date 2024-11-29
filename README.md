@@ -1,61 +1,60 @@
-# Northcoders News API
+<Span style="color: blue"># NC News API</span>
 
-Instructions
+**Overview**
 
-=======
+The NC News API is a robust backend server application designed for a news aggregation and discussion platform. Similar to Reddit's functionality, this API provides comprehensive endpoints for managing articles, topics, comments, and user interactions.
 
-If you would like to clone this repository you will not have access to the environment variables. 
-To ensure you can connect to the database locally you will need to create the environment variable files
-.env.test and .env.development in the root of the project, and add the variables for the database connection
-PGDATABASE=nameofdatabase - replace 'nameofdatabase' with the database you wish to connect to.
-Once this has been done you will be able to run the application locally with your specified database.
+**Key Features**
+
+* Retrieve and manipulate articles
+* Post and manage comments
+* Vote on articles and comments
+* User-friendly endpoints for seamless data interaction
+
+**Getting Started**
+
+**Prerequisites**
+* Node.js (v20.0.0+)
+* PostgreSQL (v14.0+)
 
 
-If you would like to clone this repository you will not have access to the environment variables. To ensure you can connect to the database locally you will need to create the environment variable files .env.test and .env.development in the root of the project, and add the variables for the database connection PGDATABASE=nameofdatabase - replace 'nameofdatabase' with the database you wish to connect to. Once this has been done you will be able to run the application locally with your specified database.
+## Installation
+1. Clone the repository:
+`git clone https://github.com/swamphobbit22/my-nc-news.git`
 
-API descriptions:
+2. Navigate to the project directory:
+`cd my-nc-news`
+
+3. Install dependencies:
+`npm install`
+
+## Database Setup 
+1. Create the `.env.development` file:
+`PGDATABASE=nc_news`
+
+2. Set up the local Database:
+`npm run setup-dbs`
+
+## Running the Application
+Start the server:
+`npm start`
+
+## Configuring Environment Variables
+
+Create two environment variable files in the project root:
+
+* `.env.development` - For the development database
+* `.env.test` - For the test database
+
+Example format:
+
+`# .env.development`
+`Database_name=nc_news_dev`
+`# .env.test`
+`Database_name=nc_news_test`
 
 
-GET /api/topics
----------------
-This returns an array of topics. 
-Fields returned are:
 
-description
-slug
 
-      [
-        { slug: 'mitch', description: 'The man, the Mitch, the legend' },
-        { slug: 'cats', description: 'Not dogs' },
-        { slug: 'paper', description: 'what books are made of' }
-      ]
 
-GET /api/articles
------------------
-This returns an array of all the articles sorted by the date created ('created_at') in desceding order.
-The fields returned are:
-
-article_id
-title
-author
-topic
-created_at
-votes
-article_img_url
-comment_count
-
-here is an example response:
-        [{
-          author: 'butter_bridge',
-          title: 'Living in the shadow of a great man',
-          article_id: 1,
-          topic: 'mitch',
-          created_at: 2020-07-09T20:11:00.000Z,
-          votes: 100,
-          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
-          comment_count: 11
-        }],
-
---- 
-
-This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
+This project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
