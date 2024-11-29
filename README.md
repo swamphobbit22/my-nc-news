@@ -11,7 +11,7 @@ The NC News API is a backend server application designed for a news aggregation 
 * Vote on articles and comments
 * User-friendly endpoints for seamless data interaction
 
-##Getting Started
+## Getting Started
 
 **Prerequisites**
 * Node.js (v20.0.0+)
@@ -48,10 +48,10 @@ Create two environment variable files in the project root:
 
 Example format:
 
-`# .env.development`
-`Database_name=nc_news_dev`
-`# .env.test`
-`Database_name=nc_news_test`
+```.env.development
+Database_name=nc_news_dev
+.env.test
+Database_name=nc_news_test```
 
 
 
