@@ -305,6 +305,7 @@ describe('DELETE /api/comments/:comment_id', () => {
       expect(Object.keys(body).length).toBe(0);
     })
   })
+
   it('should return 400 error when comment_id is invalid', () => {
     return request(app)
     .delete('/api/comments/banana')
@@ -313,6 +314,7 @@ describe('DELETE /api/comments/:comment_id', () => {
       expect(body.msg).toBe('invalid input')
     })
   })
+
   it('should return 404 error when no comment exists', () => {
     return request(app)
     .delete('/api/comments/999')
@@ -345,6 +347,20 @@ describe('GET /api/users', () => {
         })
       })
     })
+    })
+
+    it('should return a user by a given id', () => {
+      return request(app)
+      .get('/api/users/rogersop')
+      .then(({ body }) => {
+        const expectedOutput = [{
+          username:'rogersop',
+          avatar_url:'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+          name:'paul',
+        }]
+          expect(body).toEqual(expectedOutput)
+      })
+      
     })
   })
 

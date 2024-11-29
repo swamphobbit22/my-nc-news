@@ -12,6 +12,7 @@ exports.getWelcomeMsg = (req, res) => {
         <li>GET<a href="/api/articles/:article_id"> /api/articles/:article_id</a> : Returns a specific article (Replace :article with an article number)</li>
         <li>GET<a href="/api/articles/:article/comments"> /api/articles/:article/comments</a> : Returns a comment for a specified article (Replace :article with an article number) </li>
         <li>GET<a href="/api/users"> /api/users</a> : Returns all users </li>
+        <li>GET<a href="/api/users/:username"> /api/users/:username</a> : Returns user information for a given username</li>
         </ul>
         `)
 }
