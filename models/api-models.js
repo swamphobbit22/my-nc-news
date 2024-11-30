@@ -136,7 +136,7 @@ exports.updateVotesByArticle = (inc_votes, article_id) => {
 
 exports.checkTopic = (topic) => {
     return db.query(`
-        SELECT * FROM articles WHERE topic = $1`, [topic])
+        SELECT * FROM topics WHERE topic = $1`, [topic])
         .then(({ rows }) => {
             if (rows.length === 0) {
                 return Promise.reject({ status: 404, msg: 'topic does not exist'})

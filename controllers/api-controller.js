@@ -1,4 +1,4 @@
-const { readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle, checkTopic} = require('../models/api-models')
+const { readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle} = require('../models/api-models')
 
 exports.getWelcomeMsg = (req, res) => {
     res.send(`
