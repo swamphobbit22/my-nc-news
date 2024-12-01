@@ -25,6 +25,7 @@ exports.readSingleArticle = (article_id) => {
     })
 }
 
+//the original function
 exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null) => {
 
     const validSortColumns = [
@@ -59,14 +60,14 @@ exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null)
 
     const params = [];
 
-    if(topic) {
-        query += `WHERE articles.topic = $1`;
-        params.push(topic);
+    if (topic) {
+        query += `WHERE articles.topic = $1 AND articles.topic IN (SELECT slug FROM topics)`;
+        params.push(topic)
     }
-
+    
     query += `
     GROUP BY articles.article_id
-    ORDER BY ${sort_by} ${order};`;
+    ORDER BY ${sort_by} ${order}`, [topic];
 
     return db.query(query, params)
         .then(({ rows }) => {
@@ -79,7 +80,6 @@ exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null)
             return Promise.reject(err.status ? err : { status: 500, msg: 'Internal server error', error: err})
         });
 };
-
 
 
 exports.readCommentsByArticleId = (article_id) => {
