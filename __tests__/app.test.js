@@ -6,6 +6,7 @@ const app = require('../app')
 const request = require('supertest');
 
 
+
 beforeEach(() => {
   return seed(testData)
 });
@@ -409,4 +410,30 @@ describe('GET /api/users', () => {
     })
   
   })
+
+  describe('POST /api/articles', () => {
+    const addNewArticle = {
+      author: 'lurker', 
+      title: 'New Best Article Ever',
+      body: 'This is a new article',
+      topic: 'cats',
+      article_img_url: 'default.jpg'
+    }
+
+    it.only('201 - successfully created - should add a new article', () => {
+      return request(app)
+      .post('/api/articles')
+      .send(addNewArticle)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.article).toMatchObject({
+          author: addNewArticle.author,
+          title: addNewArticle.title,
+          body: addNewArticle.body,
+          topic: addNewArticle.topic,
+          article_img_url: addNewArticle.article_img_url
+        });  
+      });
+    });
+  });
 

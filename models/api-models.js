@@ -1,3 +1,4 @@
+const { promiseHooks } = require('v8')
 const db = require('../db/connection')
 
 exports.readSingleArticle = (article_id) => {
@@ -141,6 +142,47 @@ exports.checkTopic = (topic) => {
             if (rows.length === 0) {
                 return Promise.reject({ status: 404, msg: 'topic does not exist'})
             }
-            return rows; //[0]
+            return rows; 
         })
 }
+
+exports.insertArticle = ({author, title, body, topic, article_img_url}) => {
+   const query= `
+        INSERT INTO articles 
+        (author, title, body, topic, article_img_url)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;`
+       
+        const values = [author, title, body, topic, article_img_url || 'default_url.jpg'];
+
+        return db.query(query, values)
+        .then((result) => {      
+            if(!result.rows.length === 0) {
+                return Promise.reject({ status: 500, msg: 'Insert article failed'})
+            }
+            return result.rows[0];
+        })
+};
+
+exports.validateAuthor = (author) => {
+    return db.query(`
+        SELECT * FROM users WHERE username = $1`, [author])
+        .then((result) => {
+            if(!result.rows.length) {
+                return Promise.reject({ status: 404, msg: 'Author not found'})
+            }
+            return result;
+        })
+}
+
+exports.validateTopic = (topic) => {
+    return db.query(`
+        SELECT * FROM topics WHERE slug = $1`, [topic])
+        .then((result) => {
+            if(!result.rows.length) {
+                return Promise.reject({ status: 404, msg: 'Topic not found'})
+            }
+            return result;
+        })
+}
+

@@ -1,4 +1,4 @@
-const { readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle} = require('../models/api-models')
+const { readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle, validateData, validateAuthor, validateTopic, insertArticle} = require('../models/api-models')
 
 exports.getWelcomeMsg = (req, res) => {
     res.send(`
@@ -62,4 +62,22 @@ exports.patchUpdatedVotes = (req, res, next) => {
     .catch((err) => {
         next(err)
     })
+}
+
+
+exports.addArticle = (req, res, next) => {
+    const { author, title, body, topic, article_img_url } = req.body
+
+    Promise.all([
+        validateAuthor(author),
+        validateTopic(topic)
+    ])
+    .then(() => {
+        return insertArticle({ author, title, body, topic, article_img_url })
+    })
+    .then((newArticle) => {
+        res.status(201).json({ article: newArticle});
+    })
+
+    .catch(next);
 }

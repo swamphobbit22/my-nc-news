@@ -87,3 +87,5 @@ WHERE article_id = 2;
 \d comments
 
 SELECT * FROM comments;
+
+SELECT * FROM articles;
