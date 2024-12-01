@@ -9,6 +9,7 @@ exports.getWelcomeMsg = (req, res) => {
         <li>GET<a href="/api "> /api</a> : Lists all available endpoints </li>
         <li>GET<a href="/api/topics"> /api/topics</a> : Returns all topics </li>
         <li>GET<a href="/api/articles"> /api/articles</a> : Returns all articles </li>
+        <li>GET<a href="/api/articles?topic="> /api/articles?topic=TOPIC_HERE</a> : Filter articles by topic</li>
         <li>GET<a href="/api/articles/:article_id"> /api/articles/:article_id</a> : Returns a specific article (Replace :article with an article number)</li>
         <li>GET<a href="/api/articles/:article/comments"> /api/articles/:article/comments</a> : Returns a comment for a specified article (Replace :article with an article number) </li>
         <li>GET<a href="/api/users"> /api/users</a> : Returns all users </li>
