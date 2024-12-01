@@ -1,6 +1,6 @@
 const express = require('express');
 const articlesRouter = express.Router();
-const { getSingleArticle, getAllArticles, getCommentsByArticleId, patchUpdatedVotes, addArticle } = require('../controllers/api-controller');
+const { getSingleArticle, getAllArticles, getCommentsByArticleId, patchUpdatedVotes, addArticle, getPaginated } = require('../controllers/api-controller');
 const { addComment } = require('../controllers/comments-controller')
 
 

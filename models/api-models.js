@@ -1,4 +1,3 @@
-const { promiseHooks } = require('v8')
 const db = require('../db/connection')
 
 exports.readSingleArticle = (article_id) => {
@@ -27,8 +26,13 @@ exports.readSingleArticle = (article_id) => {
 }
 
 //the original function
-exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null) => {
-
+exports.readAllArticles = (
+    sort_by = 'created_at', 
+    order = 'desc', 
+    topic = null,
+    limit = 10,
+    offset = 0
+    ) => {
     const validSortColumns = [
             'author','title','article_id','topic','created_at','votes',
             'comment_count','article_img_url',
@@ -68,7 +72,10 @@ exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null)
     
     query += `
     GROUP BY articles.article_id
-    ORDER BY ${sort_by} ${order}`, [topic];
+    ORDER BY ${sort_by} ${order}
+    LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+
+    params.push(limit, offset);
 
     return db.query(query, params)
         .then(({ rows }) => {
@@ -186,3 +193,9 @@ exports.validateTopic = (topic) => {
         })
 }
 
+exports.fetchTotalCount= () => {
+    return db.query(`SELECT COUNT(*) AS TOTAL FROM articles;`)
+    .then(result => {
+      return parseInt(result.rows[0].total, 10)
+    });
+};

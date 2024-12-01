@@ -1,4 +1,12 @@
-const { readSingleArticle, readAllArticles, readCommentsByArticleId, updateVotesByArticle, validateData, validateAuthor, validateTopic, insertArticle} = require('../models/api-models')
+const { 
+    readSingleArticle, 
+    readAllArticles, 
+    readCommentsByArticleId, 
+    updateVotesByArticle, 
+    validateAuthor, 
+    validateTopic, 
+    insertArticle, 
+    fetchTotalCount} = require('../models/api-models')
 
 exports.getWelcomeMsg = (req, res) => {
     res.send(`
@@ -29,16 +37,7 @@ exports.getSingleArticle = (req, res, next) => {
     })
 }
 
-exports.getAllArticles = (req, res, next) => {
-    const { sort_by, order, topic } = req.query;
 
-    readAllArticles(sort_by, order, topic).then((rows) => {
-        res.status(200).send({ articles: rows })
-    })
-    .catch((err) => {
-        next(err)
-    })
-}
 
 
 exports.getCommentsByArticleId = (req, res, next) => {
@@ -81,3 +80,31 @@ exports.addArticle = (req, res, next) => {
 
     .catch(next);
 }
+
+exports.getAllArticles = (req, res, next) => {
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.p, 10) || 1;
+    const offset = (page - 1) * limit;
+
+    const { sort_by, order, topic } = req.query;
+
+    if(page < 1 || limit < 1) {
+        return res.status(400).send({ msg: 'Invalid limit or page number'});
+    }
+
+    Promise.all([
+        readAllArticles(sort_by, order, topic, limit, offset),
+        fetchTotalCount(topic)
+    ])
+
+    .then(([articles, totalCount]) => {
+        res.status(200).send({
+            articles,
+            total_count: totalCount
+        })
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
+
