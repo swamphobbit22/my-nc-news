@@ -1,4 +1,3 @@
-const { promiseHooks } = require('v8')
 const db = require('../db/connection')
 
 exports.readSingleArticle = (article_id) => {
@@ -27,8 +26,13 @@ exports.readSingleArticle = (article_id) => {
 }
 
 //the original function
-exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null) => {
-
+exports.readAllArticles = (
+    sort_by = 'created_at', 
+    order = 'desc', 
+    topic = null,
+    limit = 10,
+    offset = 0
+    ) => {
     const validSortColumns = [
             'author','title','article_id','topic','created_at','votes',
             'comment_count','article_img_url',
@@ -68,13 +72,19 @@ exports.readAllArticles = (sort_by = 'created_at', order = 'desc', topic = null)
     
     query += `
     GROUP BY articles.article_id
-    ORDER BY ${sort_by} ${order}`, [topic];
+    ORDER BY ${sort_by} ${order}
+    LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
 
+    params.push(limit, offset);
+    console.log(limit, offset , '<<< limit and offset in model')
+    console.log(query, params , '<<< query params')
     return db.query(query, params)
+   
         .then(({ rows }) => {
             if(topic && rows.length === 0) {
                 return Promise.reject({ status: 404, msg: 'not found'})
             }
+            console.log(rows, '<<< rows in model')
             return rows;
         })
         .catch(err => {
@@ -186,3 +196,11 @@ exports.validateTopic = (topic) => {
         })
 }
 
+exports.fetchTotalCount= () => {
+    console.log('fetching total count')
+    return db.query(`SELECT COUNT(*) AS TOTAL FROM articles;`)
+    .then(result => {
+        console.log(result.rows[0].total, 10)
+      return parseInt(result.rows[0].total, 10)
+    });
+};

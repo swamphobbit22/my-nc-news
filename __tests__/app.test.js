@@ -420,7 +420,7 @@ describe('GET /api/users', () => {
       article_img_url: 'default.jpg'
     }
 
-    it.only('201 - successfully created - should add a new article', () => {
+    it('201 - successfully created - should add a new article', () => {
       return request(app)
       .post('/api/articles')
       .send(addNewArticle)
@@ -435,5 +435,19 @@ describe('GET /api/users', () => {
         });  
       });
     });
+
   });
+
+  describe('GET /api/articles', () => {
+    it.only('should return the first 10 articles', () => {
+      return request(app)
+      .get('/api/articles')
+      .expect(200)
+      .then(response => {
+        expect(response.body.articles).toHaveLength(10);
+        //expect(response.body.total_Count).toBeGreaterThan(0);
+        expect(response.body.total_count).toBe(13)
+      })
+    })
+  })
 
