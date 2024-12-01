@@ -98,7 +98,6 @@ exports.getAllArticles = (req, res, next) => {
     ])
 
     .then(([articles, totalCount]) => {
-        console.log(totalCount)
         res.status(200).send({
             articles,
             total_count: totalCount

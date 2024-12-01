@@ -96,7 +96,7 @@ it('should return an array of articles' , () => {
     .get('/api/articles')
     .expect(200)
     .then(({ body }) => {
-      expect(body.articles).toHaveLength(13)
+      expect(body.articles).toHaveLength(10)
       body.articles.forEach((article) => {
         expect(article).toMatchObject({
           author: expect.any(String),
@@ -438,14 +438,13 @@ describe('GET /api/users', () => {
 
   });
 
-  describe('GET /api/articles', () => {
-    it.only('should return the first 10 articles', () => {
+  describe('GET /api/articles - pagination', () => {
+    it('should return the first 10 articles', () => {
       return request(app)
       .get('/api/articles')
       .expect(200)
       .then(response => {
         expect(response.body.articles).toHaveLength(10);
-        //expect(response.body.total_Count).toBeGreaterThan(0);
         expect(response.body.total_count).toBe(13)
       })
     })
