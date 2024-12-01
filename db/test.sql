@@ -80,6 +80,10 @@ WHERE article_id = 2;
         FROM articles
         LEFT JOIN comments
         ON comments.article_id = articles.article_id
-        WHERE articles.topic = 'cats'
+        WHERE articles.topic = 'Bobcats' AND articles.topic IN (SELECT slug FROM topics)
         GROUP BY articles.article_id
         ORDER BY articles.created_at;
+
+\d comments
+
+SELECT * FROM comments;

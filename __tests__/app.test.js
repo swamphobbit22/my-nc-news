@@ -364,3 +364,49 @@ describe('GET /api/users', () => {
     })
   })
 
+  describe('PATCH /api/comments/:comment_id', () => {
+    it('should successfully update a comment by comment_id', () => {
+      const updateObj = { inc_votes: 55 }
+      const expectedOutput = [{
+        comment_id: 6,
+        body:'I hate streaming eyes even more',
+        article_id: 1,
+        author: 'icellusedkars',
+        created_at: expect.anything(),
+        votes: 55,
+      }]
+      return request(app)
+      .patch('/api/comments/6')
+      .send(updateObj)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comment).toEqual(expectedOutput[0]);
+      })
+    })
+  
+    it('400 - should respond with 400 error if inc_votes is not a number', () => {
+      const updateObj = { inc_votes: 'banana' };
+      return request(app)
+      .patch('/api/comments/6')
+      .send(updateObj)
+      .expect(400)
+      .then(({body}) => {
+        const { msg } = body;
+        expect(msg).toBe('inc_votes should be a number');
+      })
+    })
+  
+    it('404 - should respond with 404 error if the comment does not exist', () => {
+      const updateObj = { inc_votes: 55 };
+      return request(app)
+      .patch('/api/comments/999')
+      .send(updateObj)
+      .expect(404)
+      .then(({body}) => {
+        const { msg } = body;
+        expect(msg).toBe('comment not found');
+      })
+    })
+  
+  })
+
