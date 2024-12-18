@@ -65,8 +65,8 @@ exports.updateCommentVotes = (inc_votes, comment_id) => {
         WHERE comment_id = $2 
         RETURNING *;`, 
         [newVotes, comment_id])
-    })
         .then(({rows}) => {
             return rows[0];
         })
+    })
 }
