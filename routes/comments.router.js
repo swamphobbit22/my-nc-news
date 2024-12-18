@@ -6,7 +6,9 @@ const { deleteCommentById, patchUpdatedVotes } = require('../controllers/comment
 commentsRouter
 .route('/:comment_id')
 .delete(deleteCommentById)
-.patch(patchUpdatedVotes);
 
+commentsRouter
+.route('/:comment_id/votes')
+.patch(patchUpdatedVotes);
 
 module.exports = commentsRouter;
