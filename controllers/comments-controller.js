@@ -56,8 +56,8 @@ exports.getCommentsByUsername = (req, res, next) => {
     if(!username) {
         return res.status(400).send({ error: "Username is required"});
     }
-    
-    selectCommentsByUsername(username).then((comments) => {
+
+    selectCommentsByUsername({username}).then((comments) => {
         res.status(200).send({ comments })
     })
     .catch((err) => {

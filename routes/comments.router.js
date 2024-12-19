@@ -12,7 +12,7 @@ commentsRouter
 .patch(patchUpdatedVotes);
 
 commentsRouter
-.route('/user/:username')
+.route('/:username')
 .get(getCommentsByUsername);
 
 module.exports = commentsRouter;
