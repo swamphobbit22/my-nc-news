@@ -40,6 +40,13 @@ exports.deleteComment = ({comment_id}) => {
         WHERE comment_id = $1`, [comment_id])
 }
 
+exports.selectCommentsByUsername =({username}) => {
+    return db.query(`
+        SELECT * FROM comments
+        WHERE author = $1
+        ORDER BY created_at DESC
+        `, [username])
+}
 
 exports.updateCommentVotes = (inc_votes, comment_id) => {
 

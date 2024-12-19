@@ -11,4 +11,8 @@ commentsRouter
 .route('/:comment_id/votes')
 .patch(patchUpdatedVotes);
 
+commentsRouter
+.route('/user/:username')
+.get(getCommentsByUsername);
+
 module.exports = commentsRouter;

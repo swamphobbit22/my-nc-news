@@ -1,4 +1,4 @@
-const {insertComment, deleteComment, checkComment, updateCommentVotes} = require('../models/comments-model');
+const {insertComment, deleteComment, checkComment, updateCommentVotes, selectCommentsByUsername} = require('../models/comments-model');
 
 exports.addComment = (req, res, next) => {
     const { article_id } = req.params;
@@ -44,6 +44,21 @@ exports.patchUpdatedVotes = (req, res, next) => {
 
     updateCommentVotes(inc_votes, comment_id).then((updateVotes) => { 
         res.status(200).send({ comment: updateVotes })   
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
+
+exports.getCommentsByUsername = (req, res, next) => {
+    const { username } = req.params;
+
+    if(!username) {
+        return res.status(400).send({ error: "Username is required"});
+    }
+    
+    selectCommentsByUsername(username).then((comments) => {
+        res.status(200).send({ comments })
     })
     .catch((err) => {
         next(err)
