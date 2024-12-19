@@ -1,6 +1,6 @@
 const express = require('express');
 const commentsRouter = express.Router();
-const { deleteCommentById, patchUpdatedVotes } = require('../controllers/comments-controller')
+const { deleteCommentById, patchUpdatedVotes, getCommentsByUsername } = require('../controllers/comments-controller')
 
 
 commentsRouter
