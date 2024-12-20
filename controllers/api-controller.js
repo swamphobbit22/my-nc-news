@@ -82,8 +82,8 @@ exports.addArticle = (req, res, next) => {
 }
 
 exports.getAllArticles = (req, res, next) => {
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const page = parseInt(req.query.p, 10) || 1;
+    const limit = parseInt(req.query.limit, 50) || 50;
+    const page = parseInt(req.query.p, 50) || 1;
     const offset = (page - 1) * limit;
 
     const { sort_by, order, topic } = req.query;
